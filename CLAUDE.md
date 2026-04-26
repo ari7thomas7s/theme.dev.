@@ -2,29 +2,42 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Repository Status
+## Project: Castello Rosso Marketing Campaign
 
-This repository (`theme.dev.`) is newly initialized with no source code yet committed. This CLAUDE.md should be updated as the project takes shape.
+Castello Rosso is an Italian-themed showcase bakery, café, and bistro in Pilisvörösvár, Hungary. This repository contains the marketing agent infrastructure for outbound B2B prospecting.
 
-## Expected Project Context
+## Marketing Specialist Agent
 
-Based on the repository name, this appears to be a theme or design-system development project. Once code is added, update this file with:
+The primary agent lives at `agents/marketing-specialist.md`. Read that file at the start of every session — it contains the agent's full persona, scoring system, workflow, and red flags.
 
-- Build, lint, and test commands
-- Source code architecture and major modules
-- Key conventions (naming, component patterns, file organization)
-- Environment setup requirements
+**To activate the agent**, start a Claude Code session and say something like:
+- *"Prospect for corporate catering clients in Budapest — find 10 leads"*
+- *"Find event venues near Pilisvörösvár and score them"*
+- *"Show me all 🟢 contacts from the tracker"*
+- *"Research [business name] and add them to the tracker"*
 
-## Git Workflow
+The agent will use web search to find businesses, score them, and append rows to `data/prospect-tracker.csv`.
 
-- Default development branch for Claude-initiated work: `claude/add-claude-documentation-GQHGE`
-- Always push with `git push -u origin <branch-name>`
-- Commit messages should be descriptive and explain the *why*, not just the *what*
-
-## Updating This File
-
-When the first real source code is committed, regenerate this file by running:
+## Repository Structure
 
 ```
-claude "Analyze this repository and update CLAUDE.md with the codebase structure, build commands, and key conventions"
+agents/
+  marketing-specialist.md   # Agent persona, scoring criteria, workflow
+data/
+  prospect-tracker.csv      # Running prospect list (append only)
 ```
+
+## Scoring System
+
+Prospects are scored out of 12 across 8 columns (D–K). See `agents/marketing-specialist.md` for the full breakdown. The scoring criteria should be updated from the official Scoring Guide (Tab 2) when available.
+
+Status thresholds:
+- 🟢 Contact Now: 8–12 points
+- 🟡 Monitor: 5–7 points
+- 🔴 Skip: 0–4 points
+
+## Key Rules
+
+- **Always append** to `prospect-tracker.csv` — never overwrite existing rows
+- **Always read** `agents/marketing-specialist.md` before prospecting
+- Update scoring criteria and red flags in the agent file when the official Scoring Guide and Red Flags tabs are shared
